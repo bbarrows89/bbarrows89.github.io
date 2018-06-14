@@ -2,7 +2,7 @@
 title: Bryan Barrows - Web Developer
 description: The personal portfolio of Bryan Barrows
 baseurl: "" # the subpath for the site, e.g. /blog
-url: "http://bryanbarrows.me" 
+url: "https://bryanbarrows.me" 
 
 # User settings
 username: Bryan Barrows
@@ -15,6 +15,6 @@ github_username:  bbarrows89
 
 # Google-analytics
 google-analytics:
-  id: ""
+  id: "UA-110297506-3"
 
 exclude: ['package.json', 'src' , 'node_modules']
