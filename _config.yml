@@ -6,12 +6,12 @@ url: "http://bryanbarrows.me"
 
 # User settings
 username: Bryan Barrows
-user_description: I'm a software/web developer based in Seattle, WA. I'm passionate about good design, performant code, and accessibility.
+user_description_p1: I am a Seattle based programmer and web developer focusing on front-end development. 
+user_description_p2: Always hungry to keep learning. 
 user_title: Software Developer
 email: bryanbarrows@live.com
 twitter_username: bryanbarrows
 github_username:  bbarrows89
-gplus_username:  lorem_ipsum
 
 # Google-analytics
 google-analytics:
