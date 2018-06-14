@@ -1,12 +1,12 @@
 # Site settings
-title: A blog about lorem ipsum dolor sit amet
-description: A blog about lorem ipsum dolor sit amet
-baseurl: " " # the subpath for the site, e.g. /blog
+title: Bryan Barrows - Web Developer
+description: The personal portfolio of Bryan Barrows
+baseurl: "/" # the subpath for the site, e.g. /blog
 url: "http://bryanbarrows.me" 
 
 # User settings
 username: Bryan Barrows
-user_description: Bicycle rights irony actually neutra typewriter lyft. Man bun taxidermy put a bird on it, umami yr ramps pop-up ugh bushwick chia lo-fi. Occupy bitters pour-over snackwave you probably haven't heard of them small batch. Cornhole mustache man bun letterpress echo park VHS.
+user_description: I'm a software/web developer based in Seattle, WA. I'm passionate about good design, performant code, and accessibility.
 user_title: Software Developer
 email: bryanbarrows@live.com
 twitter_username: bryanbarrows
