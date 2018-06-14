@@ -1,7 +1,7 @@
 # Site settings
 title: Bryan Barrows - Web Developer
 description: The personal portfolio of Bryan Barrows
-baseurl: "/" # the subpath for the site, e.g. /blog
+baseurl: "" # the subpath for the site, e.g. /blog
 url: "http://bryanbarrows.me" 
 
 # User settings
