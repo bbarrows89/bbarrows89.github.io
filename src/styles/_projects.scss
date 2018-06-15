@@ -10,6 +10,14 @@
   }
 }
 
+.links {
+  display: flex;
+  margin: auto;
+  a {
+    margin: 5px;
+  }
+}
+
 .user-projects {
   margin: 20px auto;
   img {
@@ -26,6 +34,13 @@
   }
   p {
     margin-right: 5px;
+    text-indent: 2rem;
+  }
+}
+
+.small-skill {
+  li {
+    font-size: 0.875rem;
   }
 }
 
