@@ -11,12 +11,25 @@
       <li> Featured Skills</li>
     </ul>
     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-    <a class="project-link" href="#">Check it out</a>
+    <div class="small-skill">
+      <ul>
+        <li>HTML5</li>
+        <li>CSS3</li>
+        <li>Javascript</li>
+        <li>DOM Manipulation</li>
+      </ul>
+    </div>
+    <div class="links">
+      <a class="project-link" href="#">View Demo</a>
+      <a class="project-link" href="">View Source</a>
+    </div>
   </div>
 </div>
 <div class="user-projects">
   <div class="images-left">
-    <img alt="mountains" src="{{ "/assets/img/todo-list.jpg" | prepend: site.baseurl }}" />
+    <a target="_blank" href="https://bryanbarrows.me/todos">
+      <img alt="Bryan's To-Do List App" src="{{ "/assets/img/todo-list.jpg" | prepend: site.baseurl }}" />
+    </a>
   </div>
   <div class="contents-right">
     <h3> To-Do List </h3>
@@ -33,8 +46,8 @@
       </ul>
     </div>
     <div class="links">
-      <a class="project-link" href="#">Check it out</a>
-      <a class="project-link" href="">View Source</a>
+      <a class="project-link" target="_blank" href="https://bryanbarrows.me/todos">View Demo</a>
+      <a class="project-link" target="_blank" href="https://github.com/bbarrows89/todos">View Source</a>
     </div>
   </div>
 </div>
