@@ -1,7 +1,7 @@
 #about {
   width: 90%;
   margin: 0 auto;
-  max-width: 960px;
+  // max-width: 960px;
   @media only screen and (min-width: $cut) {
     width: 80%;
   }
@@ -17,7 +17,11 @@ img {
 }
 
 .tech {
-  margin: 10px;
+  min-width: 300px;
+  margin: 40px, 15px;
+  p {
+    margin: 20px 20px;
+  }
 }
 
 .user {
@@ -26,7 +30,8 @@ img {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: space-evenly;
+  align-items: stretch;
   p {
     font-size: 16px;
   }
