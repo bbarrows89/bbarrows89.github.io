@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I broke ID-JAG five ways (so you don't have to) — Bryan Barrows</title>
+<meta name="description" content="The happy path doesn't teach you where enforcement lives. Five ID-JAG failures and the two-places pattern behind them.">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<nav class="nav"><div class="wrap nav-inner">
+  <a class="brand" href="../index.html">Bryan Barrows</a>
+  <div class="links"><a href="index.html" class="active">Essays</a><a href="../playground/index.html">Playground</a><a href="../about.html">About</a></div>
+</div></nav>
+
+<div class="wrap narrow">
+  <p class="essay-date">October 2026 · 6 min read</p>
+  <h1 class="essay-title">I broke ID-JAG five ways (so you don't have to)</h1>
+
+  <p>If you work in identity, you've seen the hype: the ID-JAG — Identity Assertion JWT Authorization Grant — is the new OAuth grant that lets AI agents act on a user's behalf without consent-screen hell. Okta's <a href="https://xaa.dev">XAA sandbox</a> will show you the happy path in 30 seconds. User signs in, IdP issues the grant, the grant becomes an access token, the API gets called. Clean.</p>
+
+  <p>But the happy path doesn't teach you where enforcement <em>lives</em>. And "where does this die when it breaks" is the question you'll actually ask at 11pm during an integration. So I built a <a href="../playground/id-jag-failure-gallery/">Failure Gallery</a> — five interactive scenarios, zero setup — and ran each one to watch the denial land.</p>
+
+  <h2>The five failures</h2>
+
+  <h3>1. The expired assertion</h3>
+  <p>Present the grant ten minutes after issuance. It's valid for five. The resource server's <code>exp</code> check kills it. Short lifetimes are the point: a stolen grant is useful for minutes, not months — and the ID-JAG exchange issues no refresh token to extend it.</p>
+
+  <h3>2. The wrong audience</h3>
+  <p>Mint the grant for the calendar API, present it to the docs API. Dies on the <code>aud</code> check. Audience binding means a stolen grant can't be redirected — it's only valid exactly where it was meant to go.</p>
+
+  <h3>3. The overreach</h3>
+  <p>Ask for <code>admin:write</code> when enterprise policy allows <code>docs:read</code>. This one never even becomes a token: the IdP refuses to issue. This is the XAA difference in one scenario — the enterprise policy decides, not the user clicking "allow." Overreach dies before a token ever exists.</p>
+
+  <h3>4. The tampered signature</h3>
+  <p>Flip a scope claim mid-flight, from <code>docs:read</code> to <code>admin:write</code>. The resource server verifies the signature against the IdP's keys — mismatch, denied. The grant is tamper-evident, and the resource server trusts the IdP's keys, never the presenter.</p>
+
+  <h3>5. The replay</h3>
+  <p>Capture a perfectly valid grant and play it twice. The second presentation dies on single-use <code>jti</code> tracking. Intercepting a grant buys the attacker nothing.</p>
+
+  <h2>The pattern that matters</h2>
+
+  <p>Enforcement lives in <strong>two places</strong>: the IdP at issuance (policy decisions — who and what is allowed) and the resource server at exchange (cryptographic validation — is this grant genuine, fresh, and meant for me). Most "why did my flow fail" debugging sessions end the moment you internalize that split. Ask first: <em>did we fail to get a grant, or fail to spend one?</em> The answer tells you which half to investigate.</p>
+
+  <h2>Learn the hard way, teach the easy way</h2>
+
+  <p>The gallery is the zero-setup distillation. In parallel I'm working through the full Kubernetes-based <a href="https://github.com/athenz-community/id-jag-the-hard-way">ID-JAG tutorial</a> — real infrastructure, real failures. Every scenario above will eventually be a failure I personally caused on real infra. That's the philosophy: suffer through the hard version so the easy version is honest.</p>
+
+  <p><em>What's the failure mode that taught you the most about a protocol? The embarrassing ones are always the most educational.</em></p>
+
+  <hr>
+  <p class="fineprint">Simulated flows based on the IETF ID-JAG draft and Okta's XAA model. Timings and error text illustrative. Try the failures yourself in the <a href="../playground/id-jag-failure-gallery/">Failure Gallery</a>.</p>
+</div>
+
+<footer><div class="wrap">
+  <p>© Bryan Barrows · <a href="https://www.linkedin.com/in/bbarrows89">LinkedIn</a> · <a href="https://github.com/bbarrows89">GitHub</a></p>
+</div></footer>
+</body>
+</html>

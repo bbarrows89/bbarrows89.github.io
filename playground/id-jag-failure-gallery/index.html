@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ID-JAG Failure Gallery — break it to understand it</title>
+<style>
+  :root {
+    --ink: #17202e;
+    --muted: #5d6b82;
+    --accent: #4f46e5;
+    --accent-soft: #eef0fe;
+    --ok: #0e7c5b;
+    --ok-soft: #e6f4ee;
+    --bad: #c0392b;
+    --bad-soft: #fdecea;
+    --card: #ffffff;
+    --bg: #f5f7fb;
+    --border: #dde3ef;
+    --console: #101828;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.55;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 20px 70px; }
+
+  header.hero { background: #141b2e; color: #fff; padding: 44px 20px 36px; text-align: center; }
+  header.hero h1 { margin: 0 0 10px; font-size: 1.8rem; }
+  header.hero p { margin: 0 auto; max-width: 600px; color: #b9c4dc; }
+  .sim-badge {
+    display: inline-block; margin-top: 14px; font-size: 0.75rem; font-weight: 700;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25);
+    padding: 4px 12px; border-radius: 20px; color: #dfe6f5;
+  }
+
+  h2 { font-size: 1.3rem; margin: 38px 0 6px; }
+  .sub { color: var(--muted); margin: 0 0 18px; }
+
+  /* Happy-path reference strip */
+  .happy { display: flex; gap: 0; margin: 18px 0 8px; flex-wrap: wrap; }
+  .happy .hstep {
+    flex: 1 1 130px; background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; padding: 10px 12px; margin: 4px; font-size: 0.85rem;
+  }
+  .happy .hstep b { display: block; font-size: 0.78rem; color: var(--accent); text-transform: uppercase; letter-spacing: 0.04em; }
+
+  /* Scenario cards */
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 20px; margin-bottom: 16px; }
+  .card h3 { margin: 0 0 6px; font-size: 1.1rem; }
+  .card .breaking { font-size: 0.95rem; color: var(--muted); margin: 0 0 14px; }
+  .card .breaking strong { color: var(--ink); }
+  .btn {
+    appearance: none; border: none; cursor: pointer; font: inherit; font-weight: 700;
+    background: var(--accent); color: #fff; padding: 10px 22px; border-radius: 9px;
+  }
+  .btn:disabled { opacity: 0.45; cursor: default; }
+  .btn.ghost { background: #eef1f6; color: var(--ink); margin-left: 8px; }
+
+  /* Run panel: stepper + console + verdict */
+  .run { display: none; margin-top: 18px; border-top: 1px solid var(--border); padding-top: 18px; }
+  .run.open { display: block; }
+  .stepper { display: flex; align-items: center; margin-bottom: 14px; }
+  .node {
+    flex: none; font-size: 0.75rem; font-weight: 700; text-align: center;
+    background: #eef1f6; border: 2px solid var(--border); color: var(--muted);
+    border-radius: 10px; padding: 8px 10px; min-width: 86px; transition: all 0.25s;
+  }
+  .node.active { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+  .node.failed { border-color: var(--bad); color: var(--bad); background: var(--bad-soft); }
+  .node.passed { border-color: var(--ok); color: var(--ok); background: var(--ok-soft); }
+  .link { flex: 1; height: 2px; background: var(--border); min-width: 12px; }
+  .console {
+    background: var(--console); color: #d5dcea; border-radius: 10px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.82rem; padding: 14px 16px; min-height: 120px; max-height: 260px; overflow-y: auto;
+  }
+  .console .line { margin: 3px 0; }
+  .console .t-ok { color: #7ee2b0; }
+  .console .t-info { color: #9fb4d8; }
+  .console .t-fail { color: #ff9d8a; font-weight: 700; }
+  .verdict { display: none; margin-top: 14px; border-radius: 10px; padding: 14px 16px; }
+  .verdict.show { display: block; }
+  .verdict.denied { background: var(--bad-soft); border: 1px solid #f3c1b8; }
+  .verdict.denied h4 { color: var(--bad); margin: 0 0 6px; }
+  .verdict p { margin: 6px 0; font-size: 0.92rem; }
+  .verdict .ep { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
+
+  footer { text-align: center; color: var(--muted); font-size: 0.85rem; padding: 30px 20px; border-top: 1px solid var(--border); margin-top: 44px; }
+  footer a { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap" style="padding-bottom:0">
+    <h1>🔬 ID-JAG Failure Gallery</h1>
+    <p>Five ways to break an Identity Assertion JWT Authorization Grant — and exactly where each one dies. Break it to understand it.</p>
+    <span class="sim-badge">Simulated flows · based on the IETF ID-JAG draft &amp; Okta's XAA model</span>
+  </div>
+</header>
+
+<div class="wrap">
+  <h2>The happy path, for reference</h2>
+  <p class="sub">Every scenario below starts here. Four steps, per <a href="https://xaa.dev">xaa.dev</a>:</p>
+  <div class="happy">
+    <div class="hstep"><b>1 · Sign in</b>User authenticates to the requesting app via the enterprise IdP (SSO).</div>
+    <div class="hstep"><b>2 · ID-JAG issued</b>App trades the ID token for a signed ID-JAG — <em>if</em> enterprise policy allows.</div>
+    <div class="hstep"><b>3 · Exchange</b>Resource AS validates the ID-JAG and issues an access token.</div>
+    <div class="hstep"><b>4 · API call</b>App calls the protected API. No consent screens, no user clicks.</div>
+  </div>
+
+  <h2>The gallery</h2>
+  <p class="sub">Pick a failure. Run it. Watch where enforcement lives.</p>
+  <div id="gallery"></div>
+
+  <h2>Go deeper</h2>
+  <p class="sub">
+    This gallery is the intuition layer. For the real thing:
+    <a href="https://xaa.dev">xaa.dev</a> runs a live preconfigured flow in your browser ·
+    <a href="https://github.com/athenz-community/id-jag-the-hard-way">ID-JAG The Hard Way</a> builds the whole architecture on Kubernetes and learns through intentional failures ·
+    the <a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-identity-assertion-authz-grant-02">IETF draft (draft-ietf-oauth-identity-assertion-authz-grant-02)</a> is the spec itself.
+  </p>
+</div>
+
+<footer>
+  Built as a learning project — simulated flows, illustrative timings and error text.<br>
+  Part of the <strong>Auth Playground</strong>: learn the hard way, teach the easy way.
+</footer>
+
+<script>
+  // ---------------------------------------------------------------------------
+  // Scenario data. Each scenario: what we're breaking, then a script of steps.
+  // A step lights up an actor node and appends a console line.
+  // Actors: 0 = Requesting app, 1 = Enterprise IdP, 2 = Resource AS, 3 = Protected API
+  // ---------------------------------------------------------------------------
+  const SCENARIOS = [
+    {
+      id: "expired",
+      title: "1 · The expired assertion",
+      breaking: "We present an ID-JAG <strong>10 minutes</strong> after it was issued. It's only valid for <strong>5</strong>.",
+      steps: [
+        { node: 0, tone: "t-ok",   text: "Requesting app: user signed in via SSO, ID token in hand." },
+        { node: 1, tone: "t-ok",   text: "Enterprise IdP: policy check passes → ID-JAG issued (exp = now + 5 min)." },
+        { node: 0, tone: "t-info", text: "…10 minutes pass… requesting app finally presents the ID-JAG." },
+        { node: 2, tone: "t-fail", text: "Resource AS: signature OK, but exp check fails → EXPIRED. Request denied." },
+      ],
+      verdict: {
+        enforcement: "Resource AS · the exp claim",
+        takeaway: "Short lifetimes are the point. A stolen grant is useful for minutes, not months — and the ID-JAG exchange issues no refresh token to extend it."
+      }
+    },
+    {
+      id: "audience",
+      title: "2 · The wrong audience",
+      breaking: "An ID-JAG minted for the <strong>calendar API</strong> gets presented to the <strong>docs API</strong>.",
+      steps: [
+        { node: 0, tone: "t-ok",   text: "Requesting app: user signed in via SSO, ID token in hand." },
+        { node: 1, tone: "t-ok",   text: "Enterprise IdP: ID-JAG issued with aud = calendar-api." },
+        { node: 0, tone: "t-info", text: "Misconfigured app (or attacker) sends the grant to the docs API instead." },
+        { node: 2, tone: "t-fail", text: "Resource AS: signature OK, but aud ≠ this server → DENIED." },
+      ],
+      verdict: {
+        enforcement: "Resource AS · the aud claim",
+        takeaway: "Audience binding means a stolen grant can't be redirected. It's only valid exactly where it was meant to go."
+      }
+    },
+    {
+      id: "scope",
+      title: "3 · The overreach",
+      breaking: "The agent asks for <strong>admin:write</strong>. Enterprise policy only allows <strong>docs:read</strong>.",
+      steps: [
+        { node: 0, tone: "t-ok",   text: "Requesting app: user signed in via SSO, ID token in hand." },
+        { node: 0, tone: "t-info", text: "Requesting app: requests ID-JAG with scope admin:write." },
+        { node: 1, tone: "t-fail", text: "Enterprise IdP: policy check — user+app authorized for docs:read only → REFUSES to issue. No grant is ever minted." },
+      ],
+      verdict: {
+        enforcement: "Enterprise IdP · at issuance — the grant never exists",
+        takeaway: "This is the XAA difference: the enterprise policy decides, not the user clicking “allow.” Overreach dies before a token ever exists."
+      }
+    },
+    {
+      id: "tampered",
+      title: "4 · The tampered signature",
+      breaking: "An attacker flips a scope claim inside the ID-JAG from <strong>docs:read</strong> to <strong>admin:write</strong>.",
+      steps: [
+        { node: 0, tone: "t-ok",   text: "Requesting app: user signed in via SSO, ID token in hand." },
+        { node: 1, tone: "t-ok",   text: "Enterprise IdP: ID-JAG issued (scope docs:read), signed with the IdP key." },
+        { node: 0, tone: "t-info", text: "Attacker intercepts the grant and edits the payload: docs:read → admin:write." },
+        { node: 2, tone: "t-fail", text: "Resource AS: verifies signature against the IdP's keys → MISMATCH → DENIED." },
+      ],
+      verdict: {
+        enforcement: "Resource AS · signature verification via the pre-established IdP trust",
+        takeaway: "The grant is tamper-evident. Changing one character breaks the signature — and the resource server trusts the IdP's keys, never the presenter."
+      }
+    },
+    {
+      id: "replay",
+      title: "5 · The replay",
+      breaking: "An attacker captures a <strong>valid</strong> ID-JAG in transit and plays it again.",
+      steps: [
+        { node: 0, tone: "t-ok",   text: "Requesting app: user signed in via SSO, ID token in hand." },
+        { node: 1, tone: "t-ok",   text: "Enterprise IdP: ID-JAG issued (jti: 9f3a…). Policy check passed." },
+        { node: 2, tone: "t-ok",   text: "Resource AS: grant valid → access token issued to the legitimate app." },
+        { node: 0, tone: "t-info", text: "Attacker replays the exact same ID-JAG." },
+        { node: 2, tone: "t-fail", text: "Resource AS: jti 9f3a… already seen → REPLAY → DENIED." },
+      ],
+      verdict: {
+        enforcement: "Resource AS · single-use tracking via the jti claim",
+        takeaway: "Grants are one-time use. Intercepting one buys the attacker nothing — the second presentation is dead on arrival."
+      }
+    },
+  ];
+
+  const ACTORS = ["Requesting app", "Enterprise IdP", "Resource AS", "Protected API"];
+  const gallery = document.getElementById("gallery");
+
+  // Build one card per scenario.
+  SCENARIOS.forEach(sc => {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML =
+      "<h3>" + sc.title + "</h3>" +
+      '<p class="breaking">What we break: ' + sc.breaking + "</p>" +
+      '<button class="btn">▶ Run it</button>' +
+      '<button class="btn ghost">Reset</button>' +
+      '<div class="run">' +
+        '<div class="stepper">' +
+          ACTORS.map(a => '<div class="node">' + a + "</div>").join('<div class="link"></div>') +
+        "</div>" +
+        '<div class="console"></div>' +
+        '<div class="verdict denied"><h4>⛔ DENIED</h4>' +
+          '<p><span class="ep">Enforcement point — </span>' + sc.verdict.enforcement + "</p>" +
+          "<p>" + sc.verdict.takeaway + "</p></div>" +
+      "</div>";
+
+    const runBtn = card.querySelectorAll(".btn")[0];
+    const resetBtn = card.querySelectorAll(".btn")[1];
+    const runPanel = card.querySelector(".run");
+    const nodes = card.querySelectorAll(".node");
+    const consoleEl = card.querySelector(".console");
+    const verdictEl = card.querySelector(".verdict");
+
+    const sleep = ms => new Promise(r => setTimeout(r, ms));
+    let generation = 0;  // bumped to cancel an in-flight run
+    let busy = false;
+
+    function reset() {
+      generation++;  // cancel any in-flight run
+      nodes.forEach(n => n.className = "node");
+      consoleEl.innerHTML = "";
+      verdictEl.classList.remove("show");
+      runPanel.classList.remove("open");
+    }
+
+    function finish() {
+      busy = false;
+      runBtn.disabled = false;
+    }
+
+    resetBtn.addEventListener("click", reset);
+
+    runBtn.addEventListener("click", async () => {
+      if (busy) return;
+      busy = true;
+      runBtn.disabled = true;
+      reset();
+      const gen = generation;  // our run's generation; reset() during the run cancels it
+      runPanel.classList.add("open");
+
+      for (const step of sc.steps) {
+        if (gen !== generation) { finish(); return; }  // cancelled by reset
+        // Mark all previously-lit nodes as passed, light the current one.
+        nodes.forEach(n => { if (n.classList.contains("active")) { n.classList.remove("active"); n.classList.add("passed"); } });
+        const node = nodes[step.node];
+        node.classList.remove("passed");
+        node.classList.add(step.tone === "t-fail" ? "failed" : "active");
+
+        const line = document.createElement("div");
+        line.className = "line " + step.tone;
+        line.textContent = "› " + step.text;
+        consoleEl.appendChild(line);
+        consoleEl.scrollTop = consoleEl.scrollHeight;
+
+        await sleep(900);
+      }
+      if (gen !== generation) { finish(); return; }  // cancelled mid-verdict
+      verdictEl.classList.add("show");
+      finish();
+    });
+
+    gallery.appendChild(card);
+  });
+</script>
+</body>
+</html>
