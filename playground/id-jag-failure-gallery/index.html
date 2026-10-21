@@ -27,6 +27,13 @@
     --console: #101828;
   }
   * { box-sizing: border-box; }
+  /* Site nav strip */
+  .topnav { background: #0c1222; border-bottom: 1px solid #232c47; }
+  .topnav .wrap { display: flex; align-items: center; justify-content: space-between; padding-top: 12px; padding-bottom: 12px; }
+  .topnav a { color: #b9c4dc; text-decoration: none; font-size: 0.9rem; }
+  .topnav a:hover { color: #fff; }
+  .topnav .brand { color: #fff; font-weight: 700; }
+
   body {
     margin: 0; background: var(--bg); color: var(--ink);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -101,6 +108,11 @@
 </style>
 </head>
 <body>
+<nav class="topnav"><div class="wrap">
+  <a class="brand" href="../../index.html">Bryan Barrows</a>
+  <a href="../index.html">&larr; Playground</a>
+</div></nav>
+
 
 <header class="hero">
   <div class="wrap" style="padding-bottom:0">
