@@ -87,3 +87,22 @@ hr { border: none; border-top: 1px solid var(--border); margin: 34px 0; }
 /* Footer */
 footer { border-top: 1px solid var(--border); margin-top: 60px; padding: 26px 0; color: var(--muted); font-size: 0.88rem; }
 footer p { margin: 0; }
+
+/* ---- Dark mode ---- */
+[data-theme="dark"] {
+  --ink: #e8edf6;
+  --muted: #9aa7bd;
+  --accent: #818cf8;
+  --accent-soft: #232a45;
+  --bg: #0e1322;
+  --card: #161d31;
+  --border: #26314a;
+}
+[data-theme="dark"] header.hero { background: #0a0f1e; }
+[data-theme="dark"] .nav { background: rgba(14,19,34,0.92); }
+.theme-toggle {
+  background: none; border: 1px solid var(--border); border-radius: 8px;
+  color: var(--muted); cursor: pointer; padding: 6px 8px; margin-left: 14px;
+  display: inline-flex; align-items: center; line-height: 0;
+}
+.theme-toggle:hover { color: var(--ink); border-color: var(--muted); }
