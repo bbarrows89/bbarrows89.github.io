@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+<channel>
+<title>Bryan Barrows — Identity security, made understandable</title>
+<link>https://bbarrows89.github.io/</link>
+<description>Essays and notes on identity security, drawn from real building.</description>
+<language>en-us</language>
+<lastBuildDate>Wed, 21 Oct 2026 17:00:00 -0700</lastBuildDate>
+<item>
+<title>PHP2Shell: the identity angle everyone's missing</title>
+<link>https://bbarrows89.github.io/notes/php2shell.html</link>
+<guid>https://bbarrows89.github.io/notes/php2shell.html</guid>
+<pubDate>Wed, 21 Oct 2026 16:30:00 -0700</pubDate>
+<description>Wiz showed PHP worker memory — passwords, tokens, API keys — readable without code execution. In an identity context, memory disclosure IS the breach. Plus what to tell your CISO this week.</description>
+</item>
+<item>
+<title>I broke ID-JAG five ways (so you don't have to)</title>
+<link>https://bbarrows89.github.io/essays/breaking-id-jag-five-ways.html</link>
+<guid>https://bbarrows89.github.io/essays/breaking-id-jag-five-ways.html</guid>
+<pubDate>Wed, 21 Oct 2026 09:00:00 -0700</pubDate>
+<description>Okta's XAA sandbox shows the happy path in 30 seconds. The happy path doesn't teach you where enforcement lives. Five interactive failures — expired grants, wrong audiences, overreach, tampering, replays — and the two-places pattern that ends most debugging sessions.</description>
+</item>
+</channel>
+</rss>
