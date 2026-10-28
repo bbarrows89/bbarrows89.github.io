@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="Bryan Barrows">
+<title>Is Your Family Actually Secure? — Bryan Barrows</title>
+<link rel="icon" href="../../favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+<link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+<meta name="description" content="10 questions, 3 minutes. Find out how secure your family really is — and get your 3 next moves.">
+<meta property="og:title" content="Is Your Family Actually Secure?">
+<meta property="og:description" content="10 questions, 3 minutes. Find out how secure your family really is — and get your 3 next moves.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://bbarrows89.github.io/playground/family-security-quiz/">
+<meta name="twitter:card" content="summary">
+<meta name="image" property="og:image" content="https://bbarrows89.github.io/og-image.jpg?v=2">
+<link rel="alternate" type="application/rss+xml" title="Bryan Barrows — Identity security, made understandable" href="../../feed.xml">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0b1220;color:#e2e8f0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:#fbbf24}
+  .wrap{max-width:640px;margin:0 auto;padding:24px 20px 64px}
+  .topnav{display:flex;justify-content:space-between;align-items:center;margin-bottom:40px;font-size:15px}
+  .topnav a{color:#94a3b8;text-decoration:none}
+  .topnav a:hover{color:#e2e8f0}
+  h1{font-size:34px;line-height:1.15;letter-spacing:-.02em;margin-bottom:12px}
+  h2{font-size:22px;line-height:1.3;margin-bottom:8px}
+  .lede{font-size:18px;color:#94a3b8;margin-bottom:24px}
+  .meta{font-size:14px;color:#64748b;margin-bottom:32px}
+  .btn{display:block;width:100%;padding:16px;border:none;border-radius:12px;font-size:17px;font-weight:600;cursor:pointer;text-align:center;text-decoration:none}
+  .btn-primary{background:#f59e0b;color:#0b1220}
+  .btn-primary:hover{background:#fbbf24}
+  .btn-ghost{background:#1e293b;color:#e2e8f0;margin-top:12px}
+  .btn-ghost:hover{background:#334155}
+  .card{background:#1e293b;border-radius:16px;padding:24px;margin-bottom:16px}
+  .progress{height:8px;background:#1e293b;border-radius:99px;overflow:hidden;margin-bottom:8px}
+  .progress-fill{height:100%;background:#f59e0b;border-radius:99px;transition:width .3s ease}
+  .progress-label{font-size:13px;color:#64748b;margin-bottom:24px}
+  .scenario{font-size:19px;line-height:1.5;margin-bottom:24px}
+  .opt{display:block;width:100%;text-align:left;background:#0f172a;border:2px solid #334155;color:#e2e8f0;border-radius:12px;padding:16px 18px;font-size:16px;line-height:1.45;cursor:pointer;margin-bottom:12px;transition:border-color .15s,background .15s}
+  .opt:hover:not(:disabled){border-color:#f59e0b}
+  .opt:disabled{cursor:default;opacity:.85}
+  .opt.correct{border-color:#34d399;background:#052e1b}
+  .opt.wrong{border-color:#f87171;background:#2a0f0f}
+  .opt .tag{font-weight:700;margin-right:8px}
+  .reveal{display:none;margin-top:20px}
+  .reveal.show{display:block}
+  .verdict{font-size:18px;font-weight:700;margin-bottom:8px}
+  .verdict.good{color:#34d399}
+  .verdict.bad{color:#f87171}
+  .teaching{color:#cbd5e1;margin-bottom:12px}
+  .nextstep{background:#0f172a;border-left:3px solid #f59e0b;border-radius:0 8px 8px 0;padding:12px 16px;font-size:15px;color:#e2e8f0}
+  .nextstep strong{color:#fbbf24}
+  .score-big{font-size:72px;font-weight:800;letter-spacing:-.03em;line-height:1;text-align:center;margin:8px 0 4px}
+  .score-sub{text-align:center;color:#94a3b8;margin-bottom:24px}
+  .tier{font-size:26px;font-weight:800;text-align:center;margin-bottom:8px}
+  .tier-blurb{text-align:center;color:#94a3b8;margin-bottom:32px}
+  .move{background:#1e293b;border-radius:16px;padding:20px 22px;margin-bottom:14px}
+  .move-num{font-size:13px;font-weight:700;color:#f59e0b;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+  .move h3{font-size:18px;margin-bottom:6px}
+  .move p{color:#cbd5e1;font-size:15px}
+  .move a{color:#fbbf24}
+  .share-box{background:#0f172a;border:1px dashed #334155;border-radius:12px;padding:18px;text-align:center;margin-bottom:16px}
+  .share-box p{font-size:16px;margin-bottom:14px}
+  .small{font-size:13px;color:#64748b;text-align:center;margin-top:24px}
+  .hidden{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topnav">
+    <a href="../index.html">← Playground</a>
+    <a href="../../index.html">Bryan Barrows</a>
+  </div>
+
+  <!-- START -->
+  <div id="screen-start">
+    <h1>Is Your Family Actually Secure?</h1>
+    <p class="lede">Ten scenarios. Three minutes. No signup, nothing saved. At the end you get a score — and the three moves that matter most for your family.</p>
+    <p class="meta">Built by a dad who does identity security for a living.</p>
+    <button class="btn btn-primary" onclick="startQuiz()">Start the check →</button>
+  </div>
+
+  <!-- QUESTION -->
+  <div id="screen-question" class="hidden">
+    <div class="progress"><div class="progress-fill" id="progress-fill"></div></div>
+    <p class="progress-label" id="progress-label"></p>
+    <p class="scenario" id="scenario"></p>
+    <div id="options"></div>
+    <div class="reveal" id="reveal">
+      <p class="verdict" id="verdict"></p>
+      <p class="teaching" id="teaching"></p>
+      <div class="nextstep"><strong>Your next step:</strong> <span id="nextstep"></span></div>
+      <button class="btn btn-primary" id="next-btn" onclick="nextQuestion()" style="margin-top:20px">Next question →</button>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="screen-results" class="hidden">
+    <p class="score-big" id="score-big"></p>
+    <p class="score-sub">out of 10</p>
+    <p class="tier" id="tier"></p>
+    <p class="tier-blurb" id="tier-blurb"></p>
+    <h2 style="margin:32px 0 16px">Your 3 next moves</h2>
+    <div id="moves"></div>
+    <div class="share-box">
+      <p id="share-text"></p>
+      <button class="btn btn-primary" onclick="copyShare()">Copy to share</button>
+      <p class="small" id="copy-confirm" style="display:none;margin-top:10px;color:#34d399">Copied — paste it anywhere.</p>
+    </div>
+    <button class="btn btn-ghost" onclick="restart()">Take it again</button>
+    <a class="btn btn-ghost" href="../index.html">← Back to the Playground</a>
+    <p class="small">Nothing you answered is saved or sent anywhere. This page runs entirely in your browser.</p>
+  </div>
+</div>
+
+<script>
+const QUESTIONS = [
+  { scenario: "Your family Gmail is the recovery address for your bank, Amazon, and your kids' school portal — everything. It's protected by a password from 2019. What's the single highest-leverage move?",
+    options: ["A longer password", "A passkey + a second recovery method you actually control", "Change the password every 90 days"],
+    correct: 1,
+    teaching: "The family email IS your identity — everything resets through it. A passkey removes the phishable credential, and the recovery method matters because lockout is the #2 risk.",
+    nextStep: "Set up a passkey on the family Gmail this weekend — it takes 10 minutes.",
+    moveTitle: "Put a passkey on the family Gmail",
+    moveDetail: "The recovery address for everything else. Ten minutes, fingerprint or face, no password to steal.",
+    moveLink: "gmail-passkey.html", moveLinkText: "Step-by-step walkthrough →",
+    priority: 1 },
+  { scenario: "Your 9-year-old wants a Roblox account. What's the setup?",
+    options: ["Their own email + a password they pick", "Family email, parent-held password manager, MFA on the parent account, spend controls on", "Let them use your account"],
+    correct: 1,
+    teaching: "Kids' accounts need parent-held recovery + boundaries, not independence. Age-staged: shared vault now, own vault at 13.",
+    nextStep: "Set up the kid's account under the family email with spend controls on before the first login.",
+    moveTitle: "Put the kid's accounts under family recovery",
+    moveDetail: "Family email + parent-held credentials + spend controls. Independence comes in stages, not all at once.",
+    priority: 9 },
+  { scenario: "Your streaming password is the same one you use for your email. What's the fix?",
+    options: ["Make it longer", "Unique password for email + passkey where offered; streaming can share", "Doesn't matter, it's just streaming"],
+    correct: 1,
+    teaching: "Credential stuffing — breach of one is breach of all. The email must be unique and strongest, because everything else resets through it.",
+    nextStep: "Change the email password to something unique today. The streaming password can stay shared — it's low-stakes.",
+    moveTitle: "Make the email password unique",
+    moveDetail: "One breach anywhere becomes a breach everywhere when passwords repeat. The email is the one that must never repeat.",
+    priority: 4 },
+  { scenario: "Your bank offers SMS codes for two-factor. A friend says that's fine. Is it?",
+    options: ["Yes, SMS is two-factor", "No — SIM-swap risk; use an authenticator app or passkey if offered", "Only if you also have a strong password"],
+    correct: 1,
+    teaching: "SMS is the weakest MFA — phishable and SIM-swappable. For money, use the strongest method available.",
+    nextStep: "Check your bank's security settings for authenticator or passkey options and switch off SMS.",
+    moveTitle: "Move the bank off SMS codes",
+    moveDetail: "SIM swaps are real and SMS codes can be phished. An authenticator app or passkey closes both holes.",
+    priority: 6 },
+  { scenario: "Mom loses her phone on vacation. It's got her authenticator app and her passkeys. What's your recovery plan?",
+    options: ["We'd figure it out", "Printed backup codes in the safe + a second device with synced passkeys", "Call the carrier"],
+    correct: 1,
+    teaching: "Recovery IS security. A plan made calmly beats a plan made panicking. Passkeys sync across devices; backup codes cover the gap.",
+    nextStep: "This week: print backup codes for the family email and bank, put them in the safe, and confirm passkeys sync to a second device.",
+    moveTitle: "Write down the recovery plan",
+    moveDetail: "Printed backup codes in the safe + passkeys synced to a second device. The plan you make calmly beats the one you make panicking.",
+    priority: 3 },
+  { scenario: "Your teenager gets a text: “Your account is locked, click here to verify.” What's the family rule?",
+    options: ["Click and check — better safe than sorry", "Never click links in texts; go to the app or type the address yourself", "Forward it to Dad first"],
+    correct: 1,
+    teaching: "The channel is the attack. Legit companies don't lock accounts via text links. The rule must be simple enough for a teen to remember under pressure.",
+    nextStep: "Say the rule out loud at dinner tonight: “We never click links in texts. We open the app.”",
+    moveTitle: "Set the one family phishing rule",
+    moveDetail: "“We never click links in texts — we open the app.” Simple enough for a teenager to remember under pressure.",
+    priority: 7 },
+  { scenario: "Where do your family's passwords live right now?",
+    options: ["Mom's head + a notebook", "A shared family password manager vault", "Saved in the browser"],
+    correct: 1,
+    teaching: "A shared vault is the only setup that survives “Mom's the only one who knows” — and it makes unique passwords actually usable.",
+    nextStep: "Pick a family plan (1Password Families, Bitwarden, or Dashlane) and move the top 10 shared accounts into it this weekend.",
+    moveTitle: "Get a shared family vault",
+    moveDetail: "One vault the whole family can use. It's the only setup that survives “Mom's the only one who knows” — and it makes unique passwords usable.",
+    priority: 2 },
+  { scenario: "The school portal wants a password for your kid. It also offers “Sign in with Google.” Which do you pick?",
+    options: ["A new unique password", "Sign in with Google (the family account with passkey + MFA)", "The kid's birthday — easy to remember"],
+    correct: 1,
+    teaching: "Fewer credentials = fewer things to steal. Federate to the strong account instead of minting a weak new one. And never personal info — birthdays are public.",
+    nextStep: "Wherever “Sign in with Google” is offered for kid accounts, use it — one strong account beats ten weak ones.",
+    moveTitle: "Federate kid accounts to the strong account",
+    moveDetail: "Where “Sign in with Google” is offered, use it. One hardened account beats ten weak passwords — and never use birthdays.",
+    priority: 8 },
+  { scenario: "You get an email: “Your data was found in a breach.” First move?",
+    options: ["Change that password immediately", "Check what was actually exposed, change that password AND anywhere you reused it, revoke sessions", "Ignore it, breaches happen all the time"],
+    correct: 1,
+    teaching: "Breach response is triage, not panic — scope first, then rotate + revoke. “Anywhere you reused it” is why the unique-password question matters.",
+    nextStep: "Check haveibeenpwned.com for the family email, then change + revoke sessions for anything exposed.",
+    moveTitle: "Learn the breach drill",
+    moveDetail: "Scope first (what was actually exposed?), then change that password AND anywhere you reused it, then revoke sessions. Panic changes one password; triage fixes the breach.",
+    priority: 5 },
+  { scenario: "Your kid turns 13. What changes?",
+    options: ["Nothing — same setup", "Their own vault + passkeys on their accounts, you keep recovery access, and the breach-response talk", "Full independence — they're a teenager now"],
+    correct: 1,
+    teaching: "Age-staged milestones — security grows with the kid. 13 = own vault + passkeys, parent as recovery, not surveillance.",
+    nextStep: "At 13: their own vault, passkeys on their accounts, you hold recovery — and the talk about what to do when (not if) something leaks.",
+    moveTitle: "Stage security with your kid's age",
+    moveDetail: "13 = own vault + passkeys, parent as recovery — not surveillance. Security grows with the kid.",
+    priority: 10 },
+];
+
+const STRETCH = [
+  { title: "Run a recovery drill", detail: "Pretend the phone is lost and time how fast you get back in. If it's more than an hour, your recovery plan has a hole." },
+  { title: "Put a passkey on the kid's Google account", detail: "Their email is the recovery hub for Roblox, school, and games — same logic as yours, smaller human." },
+];
+
+let current = 0, score = 0, missed = [];
+
+function show(id){ ["screen-start","screen-question","screen-results"].forEach(s => document.getElementById(s).classList.toggle("hidden", s !== id)); }
+function startQuiz(){ current = 0; score = 0; missed = []; show("screen-question"); renderQuestion(); }
+function restart(){ startQuiz(); window.scrollTo(0,0); }
+
+function renderQuestion(){
+  const q = QUESTIONS[current];
+  document.getElementById("progress-fill").style.width = (current / QUESTIONS.length * 100) + "%";
+  document.getElementById("progress-label").textContent = "Question " + (current + 1) + " of " + QUESTIONS.length;
+  document.getElementById("scenario").textContent = q.scenario;
+  const opts = document.getElementById("options");
+  opts.innerHTML = "";
+  q.options.forEach((text, i) => {
+    const b = document.createElement("button");
+    b.className = "opt";
+    b.innerHTML = '<span class="tag">' + "ABC"[i] + "</span>" + text;
+    b.onclick = () => answer(i);
+    opts.appendChild(b);
+  });
+  document.getElementById("reveal").classList.remove("show");
+  document.getElementById("next-btn").textContent = current === QUESTIONS.length - 1 ? "See my score →" : "Next question →";
+  window.scrollTo(0,0);
+}
+
+function answer(picked){
+  const q = QUESTIONS[current];
+  const buttons = document.querySelectorAll("#options .opt");
+  buttons.forEach((b, i) => {
+    b.disabled = true;
+    if (i === q.correct) b.classList.add("correct");
+    if (i === picked && picked !== q.correct) b.classList.add("wrong");
+  });
+  const verdict = document.getElementById("verdict");
+  if (picked === q.correct){
+    score++;
+    verdict.textContent = "✓ Correct.";
+    verdict.className = "verdict good";
+  } else {
+    missed.push(q);
+    verdict.textContent = "✗ Not quite — the answer is " + "ABC"[q.correct] + ".";
+    verdict.className = "verdict bad";
+  }
+  document.getElementById("teaching").textContent = q.teaching;
+  document.getElementById("nextstep").textContent = q.nextStep;
+  document.getElementById("reveal").classList.add("show");
+  document.getElementById("progress-fill").style.width = ((current + 1) / QUESTIONS.length * 100) + "%";
+}
+
+function nextQuestion(){
+  current++;
+  if (current < QUESTIONS.length) renderQuestion();
+  else showResults();
+}
+
+function tierFor(s){
+  if (s >= 9) return ["Fortress Family", "You're ahead of 95% of households. The moves below are stretch goals — the highest-leverage one is the recovery drill."];
+  if (s >= 7) return ["Solid, with gaps", "Good bones. The gaps below are named, in priority order — start at the top."];
+  if (s >= 5) return ["The usual family", "You're where most families are — which means the highest-leverage moves are still on the table. Start with the email."];
+  return ["Start with the email", "One move this weekend: put a passkey on the family Gmail. Everything else gets easier after that."];
+}
+
+function showResults(){
+  document.getElementById("score-big").textContent = score + "/10";
+  const [tier, blurb] = tierFor(score);
+  document.getElementById("tier").textContent = tier;
+  document.getElementById("tier-blurb").textContent = blurb;
+  let moves = missed.slice().sort((a, b) => a.priority - b.priority);
+  let si = 0;
+  while (moves.length < 3 && si < STRETCH.length){
+    const s = STRETCH[si++];
+    if (!moves.some(m => m.moveTitle === s.title)) moves.push({ moveTitle: s.title, moveDetail: s.detail });
+  }
+  moves = moves.slice(0, 3);
+  const el = document.getElementById("moves");
+  el.innerHTML = "";
+  moves.forEach((m, i) => {
+    const d = document.createElement("div");
+    d.className = "move";
+    let link = "";
+    if (m.moveLink) link = ' <a href="' + m.moveLink + '">' + m.moveLinkText + '</a>';
+    d.innerHTML = '<p class="move-num">Move ' + (i + 1) + '</p><h3>' + m.moveTitle + '</h3><p>' + m.moveDetail + link + '</p>';
+    el.appendChild(d);
+  });
+  const share = "I scored " + score + "/10 on the Family Security Check — can you beat me? https://bbarrows89.github.io/playground/family-security-quiz/";
+  document.getElementById("share-text").textContent = "“" + share.split(" https://")[0] + "”";
+  document.getElementById("share-text").dataset.full = share;
+  show("screen-results");
+  window.scrollTo(0,0);
+}
+
+function copyShare(){
+  const text = document.getElementById("share-text").dataset.full;
+  const done = () => { document.getElementById("copy-confirm").style.display = "block"; };
+  if (navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
+  } else fallbackCopy(text, done);
+}
+function fallbackCopy(text, done){
+  const ta = document.createElement("textarea");
+  ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+  document.body.appendChild(ta); ta.select();
+  try { document.execCommand("copy"); done(); } catch(e) {}
+  document.body.removeChild(ta);
+}
+</script>
+</body>
+</html>
